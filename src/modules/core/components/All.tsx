@@ -6,7 +6,7 @@ import { UIThemeInterface } from "../../theme/createTheme";
 import { defaultUIObject } from "../constants";
 
 export const generateCssOverrides = (
-  forComponent: keyof typeof defaultUIObject,
+  forComponent: keyof Omit<typeof defaultUIObject, "FlexRow" | "FlexColumn">,
   theme: UIThemeInterface
 ): Partial<typeof allCssRulesObject> => {
   if (theme?.overrides && theme.overrides[forComponent]) {
@@ -344,7 +344,8 @@ export const FlexRow = styled(Flex).withConfig({
 })<StyledElementCSSProps>((props) => ({
   flexDirection: "row",
   ...generateStyles(
-    generateCssOverrides("FlexRow", props.theme as UIThemeInterface),
+    // generateCssOverrides("FlexRow", props.theme as UIThemeInterface),
+    {},
     generateCssValues(props)
   ),
 }));
@@ -353,7 +354,8 @@ export const FlexColumn = styled(Flex).withConfig({
 })<StyledElementCSSProps>((props) => ({
   flexDirection: "column",
   ...generateStyles(
-    generateCssOverrides("FlexColumn", props.theme as UIThemeInterface),
+    // generateCssOverrides("FlexColumn", props.theme as UIThemeInterface),
+    {},
     generateCssValues(props)
   ),
 }));

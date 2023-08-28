@@ -1,5 +1,3 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import UI, {
   Body,
@@ -39,16 +37,14 @@ const theme = createUITheme(
   ],
   {
     H1: { margin: 0 },
-    FlexRow: { padding: "100px" },
     H3: { margin: "40px" },
-    FlexColumn: { background: "red" },
   }
 );
 
 function App() {
   return (
     <div className="App">
-      <FlexColumn>
+      <FlexColumn height="100vh" background="blue">
         <header className="App-header">
           <UIThemeProvider theme={theme}>
             <FlexRow
