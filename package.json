@@ -2,8 +2,12 @@
   "name": "react-ui-expert",
   "version": "0.1.0",
   "private": true,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/main.js",
+  "module": "./dist/main.mjs",
+  "types": "./dist/main.d.ts",
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
