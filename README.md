@@ -1,46 +1,143 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# react-ui-expert
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Introdution
+This lib based on css-in js concept and allows pass all the common css properties as a props of you own or built-in react components. Using styled-components underhood lib provides own version of most UI tags (elements) with prepared props (could be extended).
 
-### `npm test`
+Let`s dive in!
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To star using this lib you will be fine with just have `npm i react-ui-expert` running in the terminal of your project. Types are included.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Documentation
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+After installation let`s see what we have here. Lib has 3 types of components:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Common - `Body`, `H1-H5`, `A`, `Section `and so on.
+- Layout based - `Flex`, `FlexColumn`, `FlexRow`, `Grid`
+- Custom - using `Element` component you can create your own instances with needed props
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Everything you need for basic usage is accessible by following import:
+ `import {name_of_needed component} from "react-ui-expert"`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+ Let`s see some basic example of usage components:
 
-## Learn More
+```javascript
+import UI, {
+  FlexColumn,
+  FlexRow,
+  H1,
+  H3,
+} from "./modules/core/components/All";
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+function App() {
+  return (
+    <div className="App">
+      <FlexColumn height="100vh" background="blue">
+        <header className="App-header">
+            <FlexRow
+            // you can pass any known CSS props in camel-case notation, it`s typizated
+              width="100%"
+              height="20%"
+              alignItems="center"
+              justifyContent="center"
+              background="grey"
+            >
+              <H1 color="red">Hello</H1>
+              <H3>Hello</H3>
+              <H3>Hello world</H3>
+            </FlexRow>
+        </header>
+      </FlexColumn>
+    </div>
+  );
+}
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+You may wonder what is the diff between `style` attribute and this then. The answer is simple - `style` in react is based on simple inline-styles approach and this is last thing you should do with your components in react. 
+Meanwhile react-ui-expert works with styled-components lib, allowing you adjust all passed styles as separate style with custom className underhood. There is also an option to pass multiple class-based styles of course. You can readme more here https://styled-components.com/docs/basics
+
+## Custom theming
+
+ Additionaly react-ui-expert supports theme management. To implement custom theming you should use `createUITheme` function and `UIThemeProvider`.
+
+This is how it looks like:
+
+```javascript
+import { UIThemeProvider, createUITheme } from "react-ui-expert";
+
+function App() {
+  return (
+    <div className="App">
+      <FlexColumn height="100vh" background="blue">
+        <header className="App-header">
+          <UIThemeProvider theme={theme}> // theme goes here
+            <FlexRow
+              width="100%"
+              height="20%"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <H1 color="red">Hello</H1>
+              <H3>Hello</H3>
+              <H3>Hello world</H3>
+            </FlexRow>
+          </UIThemeProvider>
+        </header>
+      </FlexColumn>
+    </div>
+  );
+}
+```
+
+To create a theme with our lib you can use this way:
+
+```javascript
+const theme = createUITheme(
+  {
+    gaps: {
+      xl: "20px",
+      l: "10px",
+      m: "5px",
+      s: "2px",
+      xs: "0.5px",
+    },
+  },
+  [
+    {
+      background: "black",
+      primary: "white",
+      secondary: "grey",
+      text: "white",
+      shadows: "black",
+    },
+    {
+      background: "red",
+      primary: "green",
+      secondary: "yellow",
+      text: "grey",
+      shadows: "black",
+    },
+  ],
+  {
+    H1: { margin: 0 },
+    H3: { margin: "40px" },
+  }
+);
+```
+
+`createUITheme(spacings, variations, overrides)` expects 3 arguments:
+
+- Spacings object with optional fields `gaps`, `margins`, `paddings` where you can define main spacings of your layouts starting with `xs` - extra small and finishing with `xl` - extra large
+- Variations - main color pallets of themes you will use (could be one or more)
+- Overrides - common rules for certain UI tag, generally just an object where you can define basic ovverides for certain lib components.
+
